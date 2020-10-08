@@ -4,11 +4,12 @@ namespace gipfl\Log\Writer;
 
 use gipfl\Log\LogWriterWithContext;
 use gipfl\Protocol\JsonRpc\Connection;
+use function iconv;
 use function microtime;
 
 class JsonRpcWriter implements LogWriterWithContext
 {
-    const DEFAULT_RPC_METHOD = 'logger::log';
+    const DEFAULT_RPC_METHOD = 'logger.log';
 
     /** @var Connection */
     protected $connection;
@@ -39,7 +40,8 @@ class JsonRpcWriter implements LogWriterWithContext
 
     public function write($level, $message, $context = [])
     {
-        $this->connection->notification('logger::log' . $level, $this->defaultContext + [
+        $message = iconv('UTF-8', 'UTF-8//IGNORE', $message);
+        $this->connection->notification($this->method, $this->defaultContext + [
             'level'     => $level,
             'timestamp' => microtime(true),
             'message'   => $message,
