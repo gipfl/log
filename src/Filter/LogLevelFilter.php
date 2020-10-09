@@ -16,6 +16,6 @@ class LogLevelFilter implements LogFilter
 
     public function wants($level, $message, $context = [])
     {
-        return Logger::mapLogLevel($level) >= $this->level;
+        return Logger::mapLogLevel($level) <= $this->level;
     }
 }
