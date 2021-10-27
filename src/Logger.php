@@ -135,6 +135,10 @@ class Logger implements LoggerInterface
 
     protected function formatMessage($message, $context = [])
     {
-        return \sprintf($message, $context);
+        if (empty($context)) {
+            return $message;
+        } else {
+            return \sprintf($message, $context);
+        }
     }
 }
