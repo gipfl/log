@@ -6,6 +6,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use InvalidArgumentException;
 use function array_key_exists;
+use function array_values;
+use function spl_object_hash;
 
 class Logger implements LoggerInterface
 {
@@ -40,7 +42,7 @@ class Logger implements LoggerInterface
      */
     public function addWriter(LogWriter $writer)
     {
-        $this->writers[] = $writer;
+        $this->writers[spl_object_hash($writer)] = $writer;
     }
 
     /**
@@ -48,7 +50,39 @@ class Logger implements LoggerInterface
      */
     public function addFilter(LogFilter $filter)
     {
-        $this->filters[] = $filter;
+        $this->filters[spl_object_hash($filter)] = $filter;
+    }
+
+    /**
+     * @return LogWriter[]
+     */
+    public function getWriters()
+    {
+        return array_values($this->writers);
+    }
+
+    /**
+     * @return LogFilter[]
+     */
+    public function getFilters()
+    {
+        return array_values($this->filters);
+    }
+
+    /**
+     * @param LogWriter $writer
+     */
+    public function removeWriter(LogWriter $writer)
+    {
+        unset($this->filters[spl_object_hash($writer)]);
+    }
+
+    /**
+     * @param LogFilter $filter
+     */
+    public function removeFilter(LogFilter $filter)
+    {
+        unset($this->filters[spl_object_hash($filter)]);
     }
 
     /**
