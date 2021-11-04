@@ -18,4 +18,9 @@ class LogLevelFilter implements LogFilter
     {
         return Logger::mapLogLevel($level) <= $this->level;
     }
+
+    public function getLevel()
+    {
+        return $this->level;
+    }
 }
