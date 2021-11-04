@@ -3,33 +3,29 @@
 namespace gipfl\Log;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
-use InvalidArgumentException;
-use function array_key_exists;
 use function array_values;
 use function spl_object_hash;
 
 class Logger implements LoggerInterface
 {
-    const LEVEL_EMERGENCY = 0;
-    const LEVEL_ALERT = 1;
-    const LEVEL_CRITICAL = 2;
-    const LEVEL_ERROR = 3;
-    const LEVEL_WARNING = 4;
-    const LEVEL_NOTICE = 5;
-    const LEVEL_INFO = 6;
-    const LEVEL_DEBUG = 7;
-
-    const MAP_NAME_TO_LEVEL = [
-        LogLevel::EMERGENCY => self::LEVEL_EMERGENCY,
-        LogLevel::ALERT     => self::LEVEL_ALERT,
-        LogLevel::CRITICAL  => self::LEVEL_CRITICAL,
-        LogLevel::ERROR     => self::LEVEL_ERROR,
-        LogLevel::WARNING   => self::LEVEL_WARNING,
-        LogLevel::NOTICE    => self::LEVEL_NOTICE,
-        LogLevel::INFO      => self::LEVEL_INFO,
-        LogLevel::DEBUG     => self::LEVEL_DEBUG,
-    ];
+    /** @deprecated please use LogLevel::LEVEL_EMERGENCY */
+    const LEVEL_EMERGENCY = LogLevel::LEVEL_EMERGENCY;
+    /** @deprecated please use LogLevel::LEVEL_ALERT */
+    const LEVEL_ALERT = LogLevel::LEVEL_ALERT;
+    /** @deprecated please use LogLevel::LEVEL_CRITICAL */
+    const LEVEL_CRITICAL = LogLevel::LEVEL_CRITICAL;
+    /** @deprecated please use LogLevel::LEVEL_ERROR */
+    const LEVEL_ERROR = LogLevel::LEVEL_ERROR;
+    /** @deprecated please use LogLevel::LEVEL_WARNING */
+    const LEVEL_WARNING = LogLevel::LEVEL_WARNING;
+    /** @deprecated please use LogLevel::LEVEL_NOTICE */
+    const LEVEL_NOTICE = LogLevel::LEVEL_NOTICE;
+    /** @deprecated please use LogLevel::LEVEL_INFO */
+    const LEVEL_INFO = LogLevel::LEVEL_INFO;
+    /** @deprecated please use LogLevel::LEVEL_DEBUG */
+    const LEVEL_DEBUG = LogLevel::LEVEL_DEBUG;
+    /** @deprecated Please use LogLevel::MAP_NAME_TO_LEVEL */
+    const MAP_NAME_TO_LEVEL = LogLevel::MAP_NAME_TO_LEVEL;
 
     /** @var LogWriter[] */
     protected $writers = [];
@@ -86,16 +82,11 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @param string $name
-     * @return int
+     * @deprecated Please use LogLevel::mapNameToNumeric()
      */
     public static function mapLogLevel($name)
     {
-        if (array_key_exists($name, static::MAP_NAME_TO_LEVEL)) {
-            return static::MAP_NAME_TO_LEVEL[$name];
-        }
-
-        throw new InvalidArgumentException();
+        return LogLevel::mapNameToNumeric($name);
     }
 
     public function emergency($message, array $context = [])

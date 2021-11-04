@@ -2,7 +2,7 @@
 
 namespace gipfl\Log\Writer;
 
-use gipfl\Log\Logger;
+use gipfl\Log\LogLevel;
 use gipfl\Log\LogWriter;
 use function openlog;
 use function syslog;
@@ -29,6 +29,6 @@ class SyslogWriter implements LogWriter
     public function write($level, $message)
     {
         openlog($this->ident, LOG_PID, $this->facility);
-        syslog(Logger::mapLogLevel($level), str_replace("\n", '    ', $message));
+        syslog(LogLevel::mapNameToNumeric($level), str_replace("\n", '    ', $message));
     }
 }

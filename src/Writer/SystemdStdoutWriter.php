@@ -2,7 +2,7 @@
 
 namespace gipfl\Log\Writer;
 
-use gipfl\Log\Logger;
+use gipfl\Log\LogLevel;
 use gipfl\Log\LogWriter;
 use React\EventLoop\LoopInterface;
 use React\Stream\WritableResourceStream;
@@ -32,7 +32,7 @@ class SystemdStdoutWriter implements LogWriter
     {
         $this->stdOut->write(sprintf(
             "<%d> %s\n",
-            Logger::mapLogLevel($level),
+            LogLevel::mapNameToNumeric($level),
             $message
         ));
     }
