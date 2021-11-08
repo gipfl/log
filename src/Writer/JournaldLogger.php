@@ -14,6 +14,8 @@ class JournaldLogger implements LogWriter
 
     protected $socket;
 
+    protected $extraFields = [];
+
     /**
      * SystemdStdoutWriter constructor.
      * @param LoopInterface $loop
@@ -24,11 +26,23 @@ class JournaldLogger implements LogWriter
         $this->socket = new NotificationSocket($socket ?: self::JOURNALD_SOCKET);
     }
 
+    /**
+     * @param string|null $identifier
+     */
+    public function setIdentifier($identifier)
+    {
+        if ($identifier === null) {
+            unset($this->extraFields['SYSLOG_IDENTIFIER']);
+        } else {
+            $this->extraFields['SYSLOG_IDENTIFIER'] = (string) $identifier;
+        }
+    }
+
     public function write($level, $message)
     {
         $this->socket->send([
             'MESSAGE' => $message,
             'PRIORITY' => LogLevel::mapNameToNumeric($level),
-        ]);
+        ] + $this->extraFields);
     }
 }
