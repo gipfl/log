@@ -28,14 +28,27 @@ class JournaldLogger implements LogWriterWithContext
 
     /**
      * @param string|null $identifier
+     * @return $this
      */
     public function setIdentifier($identifier)
     {
-        if ($identifier === null) {
-            unset($this->extraFields['SYSLOG_IDENTIFIER']);
+        return $this->setExtraField('SYSLOG_IDENTIFIER', $identifier);
+    }
+
+    /**
+     * @param string $name
+     * @param ?string $value
+     * @return $this
+     */
+    public function setExtraField($name, $value)
+    {
+        if ($value === null) {
+            unset($this->extraFields[$name]);
         } else {
-            $this->extraFields['SYSLOG_IDENTIFIER'] = (string) $identifier;
+            $this->extraFields[$name] = (string) $value;
         }
+
+        return $this;
     }
 
     public function write($level, $message, $context = [])
