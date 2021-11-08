@@ -53,7 +53,7 @@ class SystemdStdoutWriter implements LogWriter
     public function write($level, $message)
     {
         $this->stdOut->write(sprintf(
-            "<%d> %s\n",
+            "<%d>%s\n",
             LogLevel::mapNameToNumeric($level),
             $message
         ));
