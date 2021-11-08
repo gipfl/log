@@ -23,7 +23,8 @@
         "ext-iconv": "*"
     },
     "require-dev": {
-        "gipfl/protocol-jsonrpc": ">=0.2"
+        "gipfl/protocol-jsonrpc": ">=0.2",
+        "gipfl/systemd": ">=0.3"
     },
     "suggest": {
     }
