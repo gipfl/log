@@ -3,12 +3,12 @@
 namespace gipfl\Log\Writer;
 
 use gipfl\Log\LogLevel;
-use gipfl\Log\LogWriter;
+use gipfl\Log\LogWriterWithContext;
 use gipfl\SystemD\NotificationSocket;
 use React\EventLoop\LoopInterface;
 use React\Stream\WritableStreamInterface;
 
-class JournaldLogger implements LogWriter
+class JournaldLogger implements LogWriterWithContext
 {
     const JOURNALD_SOCKET = '/run/systemd/journal/socket';
 
@@ -38,11 +38,11 @@ class JournaldLogger implements LogWriter
         }
     }
 
-    public function write($level, $message)
+    public function write($level, $message, $context = [])
     {
         $this->socket->send([
             'MESSAGE' => $message,
             'PRIORITY' => LogLevel::mapNameToNumeric($level),
-        ] + $this->extraFields);
+        ] + $context + $this->extraFields);
     }
 }
