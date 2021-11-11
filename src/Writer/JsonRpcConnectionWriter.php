@@ -3,18 +3,15 @@
 namespace gipfl\Log\Writer;
 
 use gipfl\Log\LogWriterWithContext;
-use gipfl\Protocol\JsonRpc\Connection;
+use gipfl\Protocol\JsonRpc\JsonRpcConnection;
 use function iconv;
 use function microtime;
 
-/**
- * @deprecated
- */
-class JsonRpcWriter implements LogWriterWithContext
+class JsonRpcConnectionWriter implements LogWriterWithContext
 {
     const DEFAULT_RPC_METHOD = 'logger.log';
 
-    /** @var Connection */
+    /** @var JsonRpcConnection */
     protected $connection;
 
     /** @var string */
@@ -24,10 +21,10 @@ class JsonRpcWriter implements LogWriterWithContext
     protected $defaultContext;
 
     /**
-     * JsonRpcWriter constructor.
-     * @param Connection $connection
+     * @param JsonRpcConnection $connection
+     * @param array $defaultContext
      */
-    public function __construct(Connection $connection, $defaultContext = [])
+    public function __construct(JsonRpcConnection $connection, $defaultContext = [])
     {
         $this->connection = $connection;
         $this->defaultContext = $defaultContext;
