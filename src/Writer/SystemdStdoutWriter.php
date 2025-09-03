@@ -27,7 +27,7 @@ class SystemdStdoutWriter implements LogWriter
      * @param LoopInterface $loop
      * @param WritableStreamInterface|null $stdOut
      */
-    public function __construct(LoopInterface $loop, WritableStreamInterface $stdOut = null)
+    public function __construct(LoopInterface $loop, ?WritableStreamInterface $stdOut = null)
     {
         if ($stdOut === null) {
             $this->stdOut = new WritableResourceStream(STDOUT, $loop);
