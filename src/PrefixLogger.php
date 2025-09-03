@@ -2,24 +2,18 @@
 
 namespace gipfl\Log;
 
-use Psr\Log\LoggerInterface;
+use Composer\InstalledVersions;
+use gipfl\Log\PsrLogV1\PrefixLoggerV1;
+use gipfl\Log\PsrLogV3\PrefixLoggerV3;
 
-class PrefixLogger extends Logger
-{
-    /** @var string */
-    protected $prefix;
-
-    /** @var LoggerInterface */
-    protected $wrappedLogger;
-
-    public function __construct($prefix, LoggerInterface $logger)
+if (PHP_VERSION_ID >= 80000 && version_compare(InstalledVersions::getVersion('psr/log'), '3.0.0.0', '>=')) {
+    // @codingStandardsIgnoreStart
+    class PrefixLogger extends PrefixLoggerV3
     {
-        $this->prefix = $prefix;
-        $this->wrappedLogger = $logger;
     }
-
-    public function log($level, $message, array $context = [])
+} else {
+    // @codingStandardsIgnoreStart
+    class PrefixLogger extends PrefixLoggerV1
     {
-        $this->wrappedLogger->log($level, $this->prefix . $message, $context);
     }
 }
