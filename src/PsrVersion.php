@@ -8,7 +8,10 @@ use RuntimeException;
 
 class PsrVersion
 {
-    protected const SEARCH_FILE = 'Psr/Log/LoggerInterface.php';
+    protected const SEARCH_FILES = [
+        'log/src/LoggerInterface.php',
+        'Psr/Log/LoggerInterface.php',
+    ];
     public static function isV3(): bool
     {
         if (PHP_VERSION_ID < 80000) {
@@ -21,10 +24,9 @@ class PsrVersion
         }
 
         if (interface_exists(LoggerInterface::class)) {
-            $length = strlen(self::SEARCH_FILE);
-
+            $length = strlen(self::SEARCH_FILES[0]); // hint: they are the same length
             foreach (get_required_files() as $filename) {
-                if (substr($filename, - $length) === self::SEARCH_FILE) {
+                if (in_array(substr($filename, - $length), self::SEARCH_FILES)) {
                     if (strpos(file_get_contents($filename), 'Stringable') !== false) {
                         return true;
                     } else {
