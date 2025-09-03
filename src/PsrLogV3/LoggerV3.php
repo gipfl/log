@@ -9,7 +9,7 @@ abstract class LoggerV3 implements LoggerInterface
 {
     use LoggerCommonTrait;
 
-    public function log($level, string|\Stringable $message, array $context = [])
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (! $this->wants($level, $message, $context)) {
             return;
